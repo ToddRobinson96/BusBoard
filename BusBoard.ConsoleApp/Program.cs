@@ -94,35 +94,4 @@ namespace BusBoard.ConsoleApp
 			Console.ReadLine();
 		}
 	}
-
-	public class Bus
-	{
-		public string lineName { get; set; }
-		public string destinationName { get; set; }
-		public DateTime expectedArrival { get; set; }
-	}
-
-	public class PostcodeApiResponse
-	{
-		public Postcode result { get; set; }
-	}
-
-	public class Postcode
-	{
-		public string latitude { get; set; }
-		public string longitude { get; set; }
-	}
-
-	public class StopApiResponse
-	{
-		public List<Stop> stopPoints { get; set; }
-	}
-
-
-	public class Stop
-	{
-		public string naptanId { get; set; }
-		public float distance { get; set; }
-		public string commonName { get; set; }
-	}
 }
