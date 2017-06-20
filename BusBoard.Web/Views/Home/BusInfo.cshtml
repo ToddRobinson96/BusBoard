@@ -7,4 +7,43 @@
 
 <div class="row">
     <p>You entered postcode @Model.PostCode</p>
+
+	<p>The closest stop is @Model.Stops[0].commonName</p>
+
+	<table style="width:100%">
+		<tr>
+			<th>Number</th>
+			<th>Destination</th>
+			<th>Expected Arrival Time</th>
+		</tr>
+		@foreach (BusBoard.Api.Bus b in Model.Buses[0].Take(5))
+		{
+		<tr>
+			<td>@b.lineName</td>
+			<td>@b.destinationName</td>
+			<td>@String.Format("{0:H mm ss}", b.expectedArrival)</td>
+		</tr>
+		}
+	</table>
+
+	<br>
+
+	<p>The next closest stop is @Model.Stops[1].commonName</p>
+
+	<table style="width:100%">
+		<tr>
+			<th>Number</th>
+			<th>Destination</th>
+			<th>Expected Arrival Time</th>
+		</tr>
+		@foreach (BusBoard.Api.Bus b in Model.Buses[1].Take(5))
+		{
+			<tr>
+				<td>@b.lineName</td>
+				<td>@b.destinationName</td>
+				<td>@String.Format("{0:H mm ss}", b.expectedArrival)</td>
+			</tr>
+		}
+	</table>
+
 </div>

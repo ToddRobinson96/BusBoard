@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using RestSharp;
 using System.Net;
 
-namespace BusBoard.ConsoleApp
+namespace BusBoard.Api
 {
 	public class TflApiClient
 	{

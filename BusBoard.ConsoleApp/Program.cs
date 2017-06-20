@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
+using BusBoard.Api;
 
 
 namespace BusBoard.ConsoleApp
