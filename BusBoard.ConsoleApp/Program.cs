@@ -63,7 +63,7 @@ namespace BusBoard.ConsoleApp
 
 			var mappedDestinations = SortedBusData.Select(d => d.destinationName).Take(5);
 			var mappedLines = SortedBusData.Select(d => d.lineName).Take(5);
-			var mappedArrivals = SortedBusData.Select(d => d.expectedArrival).Take(5);
+			var mappedArrivals = SortedBusData.Select(d => d.expectedArrival.ToLocalTime()).Take(5);
 
 			for (int i = 0; i < 5; i++)
 			{
