@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusBoard.ConsoleApp
 {
-	class PostcodeApiResponse
+	public class Postcode
 	{
-		public Postcode result { get; set; }
+		public string latitude { get; set; }
+		public string longitude { get; set; }
 	}
 }

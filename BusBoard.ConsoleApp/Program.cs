@@ -11,64 +11,12 @@ namespace BusBoard.ConsoleApp
 {
 	class Program
 	{
-		static List<string> GetLatLong(string postcode)
-			{
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-			var postcodeClient = new RestClient();
-			postcodeClient.BaseUrl = new Uri("http://api.postcodes.io/");
-
-			var postcodeRequest = new RestRequest();
-			postcodeRequest.Resource = $"postcodes/{postcode}";
-
-			var apiResponse = postcodeClient.Execute<PostcodeApiResponse>(postcodeRequest).Data;
-			var postcodeData = apiResponse.result;
-
-			List<string> latLong = new List<string>();
-			latLong.Add(postcodeData.latitude);
-			latLong.Add(postcodeData.longitude);
-
-			return latLong;
-		}
-
-		static List<Stop> GetBusStopCodes(List<string> latLong)
+		static void PrintBusTimes(List<Bus> sortedBusData)
 		{
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-			var tflClient = new RestClient();
-			tflClient.BaseUrl = new Uri("https://api.tfl.gov.uk/");
-
-			var stopsRequest = new RestRequest();
-			stopsRequest.Resource = $"StopPoint?stopTypes=NaptanPublicBusCoachTram&lat={latLong[0]}&lon={latLong[1]}&app_id=7b7f0ddf&app_key=eccb0a1c946585b78547fca93ac5055e";
-
-			var stopResponse = tflClient.Execute<StopApiResponse>(stopsRequest);
-			var stopData = stopResponse.Data;
-			var nearestStops = stopData.stopPoints;
-			List<Stop> sortedNearestStops = nearestStops.OrderBy(o => o.distance).ToList();
-			return sortedNearestStops;
-		}
-
-		static void PrintBusTimes(string busStopCode)
-		{
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-			var tflClient = new RestClient();
-			tflClient.BaseUrl = new Uri("https://api.tfl.gov.uk/");
-
-			var busesRequest = new RestRequest();
-			busesRequest.Resource = $"StopPoint/{busStopCode}/Arrivals?app_id=7b7f0ddf&app_key=eccb0a1c946585b78547fca93ac5055e";
-
-			var busData = tflClient.Execute<List<Bus>>(busesRequest).Data;
-			List<Bus> SortedBusData = busData.OrderBy(o => o.expectedArrival).ToList();
-
-			var mappedDestinations = SortedBusData.Select(d => d.destinationName).Take(5);
-			var mappedLines = SortedBusData.Select(d => d.lineName).Take(5);
-			var mappedArrivals = SortedBusData.Select(d => d.expectedArrival.ToLocalTime()).Take(5);
-
-			for (int i = 0; i < 5; i++)
+			foreach (Bus b in sortedBusData.Take(5))
 			{
-				string formatArrival = String.Format("{0:H mm ss}", mappedArrivals.ElementAt(i));
-				Console.WriteLine(mappedLines.ElementAt(i) + "    " + mappedDestinations.ElementAt(i) + "       " + formatArrival);
+				string formatArrival = String.Format("{0:H mm ss}", b.expectedArrival);
+				Console.WriteLine(b.lineName + "    " + b.destinationName + "       " + formatArrival);
 			}
 		}
 
@@ -76,20 +24,20 @@ namespace BusBoard.ConsoleApp
 		{
 			Console.WriteLine("Enter Postcode:");
 			string postcode = Console.ReadLine();
+			var PostcodeApiClient = new PostcodeApiClient();
+			Postcode postcodeData = PostcodeApiClient.GetLatLong(postcode);
 
-			List<string> latlong = GetLatLong(postcode);
+			var TflApiClient = new TflApiClient();
+			List<Stop> busStops = TflApiClient.GetBusStopCodes(postcodeData);
 
-			List<Stop> busStops = GetBusStopCodes(latlong);
-
-			var nearestStop = busStops[0];
-			Console.WriteLine(nearestStop.commonName);
-			var nearestStopCode = nearestStop.naptanId;
-			PrintBusTimes(nearestStopCode);
-
-			var secondStop = busStops[1];
-			Console.WriteLine(secondStop.commonName);
-			var secondStopCode = secondStop.naptanId;
-			PrintBusTimes(secondStopCode);
+			int[] zeroOne = new int[] { 0, 1 };
+			foreach (int i in zeroOne)
+			{
+				var nextStop = busStops[i];
+				Console.WriteLine(nextStop.commonName);
+				var nearestStopCode = nextStop.naptanId;
+				PrintBusTimes(TflApiClient.GetBusTimes(nearestStopCode));
+			}
 
 			Console.ReadLine();
 		}

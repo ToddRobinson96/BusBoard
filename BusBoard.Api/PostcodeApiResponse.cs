@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusBoard.ConsoleApp
 {
-	class Stop
+	public class PostcodeApiResponse
 	{
-		public string naptanId { get; set; }
-		public float distance { get; set; }
-		public string commonName { get; set; }
+		public Postcode result { get; set; }
 	}
 }

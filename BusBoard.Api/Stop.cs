@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace BusBoard.ConsoleApp
 {
-	class Postcode
+	public class Stop
 	{
-		public string latitude { get; set; }
-		public string longitude { get; set; }
+		public string naptanId { get; set; }
+		public float distance { get; set; }
+		public string commonName { get; set; }
 	}
 }

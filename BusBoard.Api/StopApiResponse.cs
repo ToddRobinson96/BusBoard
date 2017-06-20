@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusBoard.ConsoleApp
 {
-	class Bus
+	public class StopApiResponse
 	{
-		public string lineName { get; set; }
-		public string destinationName { get; set; }
-		public DateTime expectedArrival { get; set; }
+		public List<Stop> stopPoints { get; set; }
 	}
 }
