@@ -3,6 +3,5 @@
   public class PostcodeSelection
   {
     public string Postcode { get; set; }
-
   }
 }

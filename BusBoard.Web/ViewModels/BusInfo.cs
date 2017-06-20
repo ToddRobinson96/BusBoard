@@ -13,5 +13,6 @@ namespace BusBoard.Web.ViewModels
 		public string PostCode { get; set; }
 		public List<Stop> Stops { get; set; }
 		public List<List<Bus>> Buses { get; set; }
+		public bool Valid { get; set; }
 	}
 }
