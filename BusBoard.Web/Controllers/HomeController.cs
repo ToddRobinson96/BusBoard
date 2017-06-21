@@ -20,7 +20,6 @@ namespace BusBoard.Web.Controllers
     {
 			bool valid = true;
 			List<Stop> stops = new List<Stop>();
-			List<List<Bus>> buses = new List<List<Bus>>();
 
 			var PostcodeApiClient = new PostcodeApiClient();
 			Postcode postcodeData = PostcodeApiClient.GetLatLong(selection.Postcode);
@@ -41,7 +40,7 @@ namespace BusBoard.Web.Controllers
 
 				foreach (Stop s in stops)
 				{
-					buses.Add(TflApiClient.GetBusTimes(s.naptanId));
+					s.buses = TflApiClient.GetBusTimes(s.naptanId);
 				}
 			}
 
@@ -49,7 +48,6 @@ namespace BusBoard.Web.Controllers
 			{
 				PostCode = selection.Postcode,
 				Stops = stops,
-				Buses = buses,
 				Valid = valid
 			};
       return View(info);

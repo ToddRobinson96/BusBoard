@@ -15,47 +15,33 @@
 
 	@if (Model.Valid == false)
     {
-		<p>The postcode you entered is not valid.</p>
+		<p>The postcode you entered is not valid or lies outside of London.</p>
 	}
 	@if (Model.Valid == true)
-	{
-		<p>The closest stop is @Model.Stops[0].commonName</p>
+    {
+        foreach (BusBoard.Api.Stop s in Model.Stops.Take(2))
+        {
+		    <h3>The closest stop is @s.commonName</h3>
 
-		<table style="width:100%">
-			<tr>
-				<th style="width:20%">Number</th>
-				<th style="width:50%">Destination</th>
-				<th style="width:30%">Expected Arrival Time</th>
-			</tr>
-			@foreach (BusBoard.Api.Bus b in Model.Buses[0].Take(5))
-			{
-				<tr>
-					<td>@b.lineName</td>
-					<td>@b.destinationName</td>
-					<td>@String.Format("{0:H mm ss}", b.expectedArrival.ToLocalTime())</td>
-				</tr>
-			}
-		</table>
+		    <table style="width:100%">
+		    	<tr>
+			    	<th style="width:20%">Number</th>
+		    		<th style="width:50%">Destination</th>
+		    		<th style="width:30%">Expected Arrival Time</th>
+		    	</tr>
+            
+		    	@foreach (BusBoard.Api.Bus b in s.buses.Take(5))
+		    	{
+		    		<tr>
+		    			<td>@b.lineName</td>
+		    			<td>@b.destinationName</td>
+		    			<td>@String.Format("{0:H mm ss}", b.expectedArrival.ToLocalTime())</td>
+		    		</tr>
+	    		}
+	    	</table>
 
-		<br>
-
-		<p>The next closest stop is @Model.Stops[1].commonName</p>
-
-		<table style="width:100%">
-			<tr>
-                <th style="width:20%">Number</th>
-                <th style="width:50%">Destination</th>
-                <th style="width:30%">Expected Arrival Time</th>
-			</tr>
-			@foreach (BusBoard.Api.Bus b in Model.Buses[1].Take(5))
-			{
-				<tr>
-					<td>@b.lineName</td>
-					<td>@b.destinationName</td>
-					<td>@String.Format("{0:H mm ss}", b.expectedArrival.ToLocalTime())</td>
-				</tr>
-			}
-		</table>
+	    	<br>
+        }
 	}
-
+  
 </div>

@@ -11,5 +11,6 @@ namespace BusBoard.Api
 		public string naptanId { get; set; }
 		public float distance { get; set; }
 		public string commonName { get; set; }
+		public List<Bus> buses { get; set; }
 	}
 }
