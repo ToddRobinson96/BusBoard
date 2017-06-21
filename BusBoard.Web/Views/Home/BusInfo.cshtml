@@ -23,16 +23,16 @@
 
 		<table style="width:100%">
 			<tr>
-				<th>Number</th>
-				<th>Destination</th>
-				<th>Expected Arrival Time</th>
+				<th style="width:20%">Number</th>
+				<th style="width:50%">Destination</th>
+				<th style="width:30%">Expected Arrival Time</th>
 			</tr>
 			@foreach (BusBoard.Api.Bus b in Model.Buses[0].Take(5))
 			{
 				<tr>
 					<td>@b.lineName</td>
 					<td>@b.destinationName</td>
-					<td>@String.Format("{0:H mm ss}", b.expectedArrival)</td>
+					<td>@String.Format("{0:H mm ss}", b.expectedArrival.ToLocalTime())</td>
 				</tr>
 			}
 		</table>
@@ -43,16 +43,16 @@
 
 		<table style="width:100%">
 			<tr>
-				<th>Number</th>
-				<th>Destination</th>
-				<th>Expected Arrival Time</th>
+                <th style="width:20%">Number</th>
+                <th style="width:50%">Destination</th>
+                <th style="width:30%">Expected Arrival Time</th>
 			</tr>
 			@foreach (BusBoard.Api.Bus b in Model.Buses[1].Take(5))
 			{
 				<tr>
 					<td>@b.lineName</td>
 					<td>@b.destinationName</td>
-					<td>@String.Format("{0:H mm ss}", b.expectedArrival)</td>
+					<td>@String.Format("{0:H mm ss}", b.expectedArrival.ToLocalTime())</td>
 				</tr>
 			}
 		</table>

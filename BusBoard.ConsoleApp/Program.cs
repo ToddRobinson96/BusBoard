@@ -16,7 +16,7 @@ namespace BusBoard.ConsoleApp
 		{
 			foreach (Bus b in sortedBusData.Take(5))
 			{
-				string formatArrival = String.Format("{0:H mm ss}", b.expectedArrival);
+				string formatArrival = String.Format("{0:H mm ss}", b.expectedArrival.ToLocalTime());
 				Console.WriteLine(b.lineName + "    " + b.destinationName + "       " + formatArrival);
 			}
 		}
