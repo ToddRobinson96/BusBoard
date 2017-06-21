@@ -1,4 +1,9 @@
-﻿@model BusBoard.Web.ViewModels.BusInfo
+﻿<head>
+    <META HTTP-EQUIV="REFRESH" CONTENT="30">
+</head>
+ 
+
+@model BusBoard.Web.ViewModels.BusInfo
 @{
 	ViewBag.Title = "Bus Information";
 }
@@ -9,7 +14,7 @@
     <p>You entered postcode @Model.PostCode</p>
 
 	@if (Model.Valid == false)
-	{
+    {
 		<p>The postcode you entered is not valid.</p>
 	}
 	@if (Model.Valid == true)

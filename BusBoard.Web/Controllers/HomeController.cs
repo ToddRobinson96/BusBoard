@@ -19,6 +19,9 @@ namespace BusBoard.Web.Controllers
     public ActionResult BusInfo(PostcodeSelection selection)
     {
 			bool valid = true;
+			List<Stop> stops = new List<Stop>();
+			List<List<Bus>> buses = new List<List<Bus>>();
+
 			var PostcodeApiClient = new PostcodeApiClient();
 			Postcode postcodeData = PostcodeApiClient.GetLatLong(selection.Postcode);
 
@@ -26,19 +29,20 @@ namespace BusBoard.Web.Controllers
 			{
 				valid = false;
 			}
-
-			var TflApiClient = new TflApiClient();
-			List<Stop> stops = TflApiClient.GetBusStopCodes(postcodeData);
-
-			if (!stops.Any())
+			else
 			{
-				valid = false;
-			}
+				var TflApiClient = new TflApiClient();
+				stops = TflApiClient.GetBusStopCodes(postcodeData);
 
-			List<List<Bus>> buses = new List<List<Bus>>();
-			foreach (Stop s in stops)
-			{
-				buses.Add(TflApiClient.GetBusTimes(s.naptanId));
+				if (!stops.Any())
+				{
+					valid = false;
+				}
+
+				foreach (Stop s in stops)
+				{
+					buses.Add(TflApiClient.GetBusTimes(s.naptanId));
+				}
 			}
 
 			var info = new BusInfo(selection.Postcode)
